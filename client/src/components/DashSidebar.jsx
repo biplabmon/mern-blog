@@ -9,7 +9,7 @@ const DashSidebar = () => {
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);    // it's JS native functionality to get the current tab location
         const tabFromUrl = urlParams.get('tab');
-        console.log(tabFromUrl);
+        // console.log(tabFromUrl);
 
         if (tabFromUrl) {
             setTab(tabFromUrl);
