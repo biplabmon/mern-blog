@@ -2,7 +2,7 @@ import { Table, Modal, Button } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { HiInformationCircle } from 'react-icons/hi';
-import {FaCheck, FaTimes} from 'react-icons/fa';
+import { FaCheck, FaTimes } from 'react-icons/fa';
 
 
 const DashUsers = () => {
@@ -50,7 +50,21 @@ const DashUsers = () => {
     };
 
     const handelDeleteUser = async () => {
-
+        try {
+            const res = await fetch(`/api/user/delete/${userIdToDelete}`, {
+                method: 'DELETE',
+            })
+            const data = await res.json();
+            
+            if(res.ok) {
+                setUsers(prev => prev.filter(user => user._id !== userIdToDelete));
+                setShowModal(false);
+            } else {
+                console.log(data.message);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     return (
