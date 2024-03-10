@@ -85,23 +85,23 @@ export const signout = async (req, res, next) => {
 };
 
 // get all users
-export const getUsers = async(req, res, next) =>{
-    if(!req.user.isAdmin){
+export const getUsers = async (req, res, next) => {
+    if (!req.user.isAdmin) {
         return next(errorHandler(403, "You are not allowed to see all the users details"))
     };
 
     try {
         const startIndex = parseInt(req.query.startIndex) || 0;
         const limit = parseInt(req.query.limit) || 9;
-        const sortDirection = req.query.sort === 'asc'? 1 : -1;
+        const sortDirection = req.query.sort === 'asc' ? 1 : -1;
 
         const users = await User.find()
-        .sort({createdAt: sortDirection})
-        .skip(startIndex)
-        .limit(limit);
-        
-        const usersWithoutPassword = users.map((user)=>{
-            const { password,...rest } = user._doc;
+            .sort({ createdAt: sortDirection })
+            .skip(startIndex)
+            .limit(limit);
+
+        const usersWithoutPassword = users.map((user) => {
+            const { password, ...rest } = user._doc;
             return rest;
         });
 
@@ -123,6 +123,21 @@ export const getUsers = async(req, res, next) =>{
             totalUsers,
             lastMonthUsers
         });
+    } catch (error) {
+        next(error);
+    };
+};
+
+// get all users without verification for comment view  
+export const getUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) {
+            return next(errorHandler(404, 'User not found'));
+        };
+        const { password, ...rest } = user._doc;
+
+        res.status(200).json(rest);
     } catch (error) {
         next(error);
     };
