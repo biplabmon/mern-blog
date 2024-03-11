@@ -18,7 +18,7 @@ const commentSchema = mongoose.Schema({
         type: Array,
         default: []
     },
-    numgerOfLikes: {
+    numberOfLikes: {
         type: Number,
         default: 0
     }
