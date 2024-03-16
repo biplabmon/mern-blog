@@ -4,17 +4,18 @@ import DashSidebar from '../components/DashSidebar';
 import DashProfile from '../components/DashProfile';
 import DashPosts from '../components/DashPosts';
 import DashUsers from '../components/DashUsers';
+import DashComments from '../components/DashComments';
 
 
 const Dashboard = () => {
   const location = useLocation();
   const [tab, setTab] = useState('');
-  useEffect(()=>{
+  useEffect(() => {
     const urlParams = new URLSearchParams(location.search);    // it's JS native functionality to get the current tab location
     const tabFromUrl = urlParams.get('tab');
     // console.log(tabFromUrl);
-    
-    if (tabFromUrl){
+
+    if (tabFromUrl) {
       setTab(tabFromUrl);
     }
 
@@ -27,17 +28,16 @@ const Dashboard = () => {
         <DashSidebar />
       </div>
       {/* profile and etc..  */}
-      {
-        tab === 'profile' && <DashProfile />
-      }
+      {tab === 'profile' && <DashProfile />}
+
       {/* Profile posts  */}
-      {
-        tab === 'posts' && <DashPosts />
-      }
+      {tab === 'posts' && <DashPosts />}
+
       {/* Users  */}
-      {
-        tab === 'users' && <DashUsers />
-      }
+      {tab === 'users' && <DashUsers />}
+
+      {/* Comments  */}
+      {tab === 'comments' && <DashComments />}
     </div>
   )
 }

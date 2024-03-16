@@ -1,5 +1,5 @@
 import express from 'express';
-import { createComment, deleteComment, editComment, getPostComments, likeComment } from '../controllers/comment.controllers.js';
+import { createComment, deleteComment, editComment, getComments, getPostComments, likeComment } from '../controllers/comment.controllers.js';
 import { verifyToken } from '../utils/verifyUser.js';
 
 
@@ -10,5 +10,6 @@ router.get('/getPostComments/:postId', getPostComments);
 router.put('/likeComment/:commentId', verifyToken, likeComment);
 router.put('/editComment/:commentId', verifyToken, editComment);
 router.delete('/deleteComment/:commentId', verifyToken, deleteComment);
+router.get('/getcomments', verifyToken, getComments);
 
 export default router;
