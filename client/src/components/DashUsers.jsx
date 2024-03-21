@@ -1,8 +1,10 @@
 import { Table, Modal, Button } from 'flowbite-react';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { HiInformationCircle } from 'react-icons/hi';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { deleteUserSuccess } from '../redux/user/userSlice';
 
 
 const DashUsers = () => {
@@ -11,6 +13,9 @@ const DashUsers = () => {
     const [showMore, setShowMore] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [userIdToDelete, setUserIdToDelete] = useState('');
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (currentUser.isAdmin) {
@@ -59,6 +64,11 @@ const DashUsers = () => {
             if(res.ok) {
                 setUsers(prev => prev.filter(user => user._id !== userIdToDelete));
                 setShowModal(false);
+
+                if (userIdToDelete === currentUser._id) {
+                    dispatch(deleteUserSuccess());
+                    navigate("/sign-in");
+                };
             } else {
                 console.log(data.message);
             }
